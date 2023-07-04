@@ -1,16 +1,25 @@
-# RAP repository template
+# RAP Example Pipeline - Python
 
 :exclamation: Warning: this repository may contain references internal to NHS England that cannot be accessed publicly
 
-> Describe your project in 1-3 sentences.
+This repo contains a simple example pipeline to act as an example of RAP good-practice with Python.
 
-A template Python repository that can be adapted for RAP projects.
+## Flow Chart
 
-_A **repository** is something that contains all of your project's files and and each file's revision history._
-
-## Link to publication
-
-> Include a link to where your publication is published.
+- Input:
+    - Load the Artificial HES data
+    - Save it to a CSV
+- Process:
+    - Work out the following metrics:
+       - Count of episodes
+       - Count of patients 
+    - At the following aggregations:
+       - All England
+       - Trust
+       - Region 
+- Output:
+    - CSV outputs
+    - Graph outputs
 
 ## Contact
 **This repository is maintained by [NHS England Data Science Team](datascience@nhs.net)**.
@@ -20,13 +29,12 @@ _A **repository** is something that contains all of your project's files and and
 
 ## Description
 
-> Provide more detailed overview of the project, including (if relevant) a description of the publication process.
+[Reproducible Analytical Pipelines](https://nhsdigital.github.io/rap-community-of-practice/) can seem quite abstract - so this repo is meant to serve as a real example, that anyone can run, to see RAP in action.
 
-This repository is intended to function as a template for Python RAP projects at NHS England.
+The pipeline uses artificial HES data, which was chosen as it is "like" real data used in our industry, but also freely available. 
 
-You can learn more about project structure and why it's important in the ['project structure and packaging guide'](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/project-structure-and-packaging/) of the RAP community of practice Github repo, a central source of RAP knowledge.
+> Describe the pipeline and why we've made it this way
 
-_You can edit any part of this document. The licence section **must be edited** before publishing this repository publicly. For more information about publishing your project please see the ['how to publish your code in the open' guide](https://nhsdigital.github.io/rap-community-of-practice/implementing_RAP/how-to-publish-your-code-in-the-open/)._
 
 ## Prerequisites
 
