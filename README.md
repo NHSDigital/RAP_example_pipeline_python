@@ -35,6 +35,7 @@ The pipeline uses artificial HES data, which was chosen as it is "like" real dat
 
 > Describe the pipeline and why we've made it this way
 
+- Get the artificial HES data
 
 ## Prerequisites
 
