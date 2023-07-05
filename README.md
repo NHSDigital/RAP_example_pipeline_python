@@ -23,7 +23,9 @@ This repo contains a simple example pipeline to act as an example of RAP good-pr
 
 
 ## Processes Flow-chart
-flowchart LR
+
+```mermaid
+flowchart TB 
     %% Input
     A_ts(Artificial HES data)
     B_ts(Script to pull down to CSV)
@@ -68,7 +70,7 @@ flowchart LR
 
 %% Colour formatting
 classDef thin_slice fill:#CCFFCC,stroke:#333,stroke-width:4px
-
+```
 
 
 ## Contact
