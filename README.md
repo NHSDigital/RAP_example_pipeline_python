@@ -21,6 +21,56 @@ This repo contains a simple example pipeline to act as an example of RAP good-pr
     - CSV outputs
     - Graph outputs
 
+
+## Processes Flow-chart
+flowchart LR
+    %% Input
+    A_ts(Artificial HES data)
+    B_ts(Script to pull down to CSV)
+    B_one(Script to pull down to API)
+
+    %% Processes
+    C_ts(All of England)
+    C_one(Regional distribution)
+    C_two(ICB distribution)
+
+    D_ts(Count the number of episodes)
+    D_one(Number of unique individuals)
+
+
+    %% Output
+    E_ts(CSV output)
+    E_one(Graph output)
+
+    %% Generating flowchart
+    subgraph Input
+    A_ts:::thin_slice==>B_ts
+    A_ts-->B_one
+    end
+
+    subgraph Processes
+    B_ts:::thin_slice==>C_ts
+    B_ts-->C_one
+    B_ts-->C_two
+
+    
+    C_ts:::thin_slice==>D_ts
+    C_ts-->D_one
+
+ 
+
+    end
+
+    subgraph Output
+    D_ts:::thin_slice==>E_ts:::thin_slice
+    D_ts-->E_one
+    end
+
+%% Colour formatting
+classDef thin_slice fill:#CCFFCC,stroke:#333,stroke-width:4px
+
+
+
 ## Contact
 **This repository is maintained by [NHS England Data Science Team](datascience@nhs.net)**.
 > _To contact us raise an issue on Github or via email._
