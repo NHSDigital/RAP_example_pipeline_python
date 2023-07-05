@@ -1,6 +1,12 @@
 # The libraries used by your code should be listed here
 # See https://nhsd-git.digital.nhs.uk/data-services/analytics-service/iuod/rap-community-of-practice/-/blob/master/python/project-structure-and-packaging.md
 
+# PySpark
+pyspark==3.2.1
+
+# Requests - used to collect data
+requests
+
 # Python version = 3.10.*
 
 # Data manipulation

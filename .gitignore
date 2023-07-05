@@ -155,3 +155,7 @@ cython_debug/
 
 # VS Code project files
 .vscode/
+
+# Data folder (empty)
+.data/
+data/
