@@ -14,12 +14,10 @@ import timeit
 from pathlib import Path
 from src.utils.file_paths import get_config
 from src.utils.logging_config import configure_logging 
-
-
 from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
 import requests
 from src.data_ingestion.get_data import download_zip_from_url
-
 
 logger = logging.getLogger(__name__)
 
@@ -56,14 +54,21 @@ def main():
 
 
     # follow data processing steps
+    df_hes_region_count = (df_hes_data
+        .agg(
+            F.countDistinct('epikey').alias('number_of_episodes')
+        )
+    )
 
+    print("total observations: " + str(df_hes_data.count()))
 
+    df_hes_region_count.show()
 
     # produce outputs
-    for table_name, df in publication_breakdowns.items():
-        df.to_csv(output_dir / f'{table_name}.csv', index=False)
-        logger.info('\n\n%s.csv created!\n', table_name)
-    logger.info(f"Produced output(s) in folder: {output_dir}.")
+    # for table_name, df in publication_breakdowns.items():
+    #     df.to_csv(output_dir / f'{table_name}.csv', index=False)
+    #     logger.info('\n\n%s.csv created!\n', table_name)
+    # logger.info(f"Produced output(s) in folder: {output_dir}.")
     
 if __name__ == "__main__":
     print(f"Running create_publication script")
