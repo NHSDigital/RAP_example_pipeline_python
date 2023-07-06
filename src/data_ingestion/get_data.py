@@ -8,8 +8,7 @@ import io
 import pathlib
 import requests
 import pathlib
-from textwrap import dedent
-import duckdb
+from ..utils import data_connections
 
 DB_PATH = pathlib.Path(".db")
 DATA_PATH = pathlib.Path(__file__).parent.parent.parent / "data"
@@ -51,51 +50,6 @@ def download_zip_from_url(
     downloaded_zip = zipfile.ZipFile(io.BytesIO(response.content))
     downloaded_zip.extractall(output_path)
     return output_path
-
-
-def create_table_from_csv(
-    csv_path: pathlib.Path,
-    conn: duckdb.DuckDBPyConnection,
-    replace: bool = False,
-    exists_ok: bool = True,
-) -> str:
-    """
-    Create DuckDB table using a csv source.
-
-    Parameters
-    ----------
-    csv_path : pathlib.Path
-        Path to the csv file.
-    conn : duckdb.DuckDBPyConnection
-        Database connection.
-    replace : bool, optional
-        Should the table be replaced if it exists, by default False
-    exists_ok : bool, optional
-        Raise errors if the table already exists, by default True.
-        If replace=True then this parameter has no effect.
-
-    Returns
-    -------
-    str
-        Name of the table that was created.
-    """
-    table_name = csv_path.stem
-
-    if replace:
-        create_expr = "CREATE OR REPLACE TABLE"
-    elif exists_ok:
-        create_expr = "CREATE TABLE IF NOT EXISTS"
-    else:
-        create_expr = "CREATE TABLE"
-
-    stmt = f"""
-        {create_expr} {table_name}
-        AS
-        SELECT * FROM read_csv_auto('{csv_path.resolve()}')
-    """
-    conn.execute(dedent(stmt))
-
-    return table_name
 
 
 def download_artificial_hes_zip(
@@ -155,18 +109,18 @@ def get_user_inputs() -> dict[str, Any]:
 if __name__ == "__main__":
     user_inputs = get_user_inputs()
 
-    conn = duckdb.connect(str(DB_PATH.resolve()))
+    conn = data_connections.get_duckdb_connection()
     zip_path = download_artificial_hes_zip("ae")
 
     for csv_path in INPUT_PATH.glob("**/*.csv"):
-        table_name = create_table_from_csv(
-            csv_path,
+        table_name = data_connections.create_table_from_csv(
             conn,
+            csv_path,
             replace=user_inputs["replace"],
             exists_ok=user_inputs["exists_ok"],
         )
 
-    df = conn.execute(f"SELECT * FROM {table_name} LIMIT 10").fetch_df()
+    df = data_connections.read_table_to_df(conn, table_name)
 
     print(f"Printing results from table '{table_name}'")
     print(df)
