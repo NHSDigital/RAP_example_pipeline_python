@@ -26,6 +26,7 @@ def get_duckdb_connection(db_path: pathlib.Path = DB_PATH) -> duckdb.DuckDBPyCon
         Connection object.
     """
     conn = duckdb.connect(str(db_path.resolve()))
+    conn.execute("SET GLOBAL pandas_analyze_sample=100000")
     return conn
 
 
