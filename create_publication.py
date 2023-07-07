@@ -21,6 +21,7 @@ import requests
 from src.data_ingestion.get_data import download_zip_from_url
 import glob
 import os
+from src.utils.reading_data import load_csv_into_spark_data_frame
 
 
 logger = logging.getLogger(__name__)
@@ -33,6 +34,7 @@ def main():
     output_dir = Path(config['output_dir'])
     log_dir = Path(config['log_dir'])
     data_url = config['data_url']
+    data_hes_path = config['data_hes_path']
 
 
     # configure logging
@@ -51,12 +53,10 @@ def main():
         .getOrCreate()
     )
 
-    # load latest CSV into dataframe
-    df_hes_data = (spark
-        .read
-        .csv("data_in/artificial_hes_ae_202302_v1_sample.zip/artificial_hes_ae_202302_v1_sample/artificial_hes_ae_2122.csv", header=True)
-    )
 
+    # Loading data from CSV as spark data frame
+    df_hes_data = load_csv_into_spark_data_frame(spark, data_hes_path)
+    
 
     # follow data processing steps
     df_hes_england_count = (df_hes_data

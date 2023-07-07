@@ -5,6 +5,7 @@ database = ''
 schema = ''
 table = ''  
 data_url = "https://s3.eu-west-2.amazonaws.com/files.digital.nhs.uk/assets/Services/Artificial+data/Artificial+HES+final/artificial_hes_ae_202302_v1_sample.zip"
+data_hes_path = "data_in/artificial_hes_ae_202302_v1_sample.zip/artificial_hes_ae_202302_v1_sample/artificial_hes_ae_2122.csv"
 
 # The above variables reference an example location in SQL Server, they will need to be changed for your project
 # If you are using Databricks instead of SQL Server you will not need to set the 'server' variable
