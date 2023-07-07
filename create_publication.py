@@ -22,6 +22,7 @@ from src.data_ingestion.get_data import download_zip_from_url
 import glob
 import os
 from src.utils.reading_data import load_csv_into_spark_data_frame
+from src.processing.aggregate_counts import get_aggregate_counts
 
 
 logger = logging.getLogger(__name__)
@@ -58,13 +59,9 @@ def main():
     df_hes_data = load_csv_into_spark_data_frame(spark, data_hes_path)
     
 
-    # follow data processing steps
-    df_hes_england_count = (df_hes_data
-        .agg(
-            F.countDistinct('epikey').alias('number_of_episodes')
-        )
-    )
 
+    # Count number of episodes in England
+    df_hes_england_count = get_aggregate_counts(df_hes_data, None, 'epikey', 'number_of_episodes')
 
 
 
