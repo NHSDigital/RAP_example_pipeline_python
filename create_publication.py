@@ -19,6 +19,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 import requests
 from src.data_ingestion.get_data import download_zip_from_url
+import glob
+import os
+
 
 logger = logging.getLogger(__name__)
 
@@ -29,14 +32,16 @@ def main():
     filled_value = config['filled_value']
     output_dir = Path(config['output_dir'])
     log_dir = Path(config['log_dir'])
+    data_url = config['data_url']
+
 
     # configure logging
     configure_logging(log_dir, config)
     logger.info(f"Configured logging with log folder: {log_dir}.")
 
+
     # get artificial HES data as CSV
-    ARTIFICIAL_HES_URL = "https://s3.eu-west-2.amazonaws.com/files.digital.nhs.uk/assets/Services/Artificial+data/Artificial+HES+final/artificial_hes_ae_202302_v1_sample.zip"
-    download_zip_from_url(ARTIFICIAL_HES_URL,overwrite=True)
+    download_zip_from_url(data_url, overwrite=True)
  
     
     # create spark session
@@ -54,20 +59,16 @@ def main():
 
 
     # follow data processing steps
-    df_hes_region_count = (df_hes_data
+    df_hes_england_count = (df_hes_data
         .agg(
             F.countDistinct('epikey').alias('number_of_episodes')
         )
     )
 
-    print("total observations: " + str(df_hes_data.count()))
 
-    df_hes_region_count.show()
 
-    # produce outputs
-    # os.mkdir('/data_out')
 
-    (df_hes_region_count
+    (df_hes_england_count
         .repartition(1)
         .write
         .mode('overwrite')
@@ -75,14 +76,14 @@ def main():
         .csv("data_out/")
     )
 
-    import glob
-    import os
+    
     # absolute path to search all text files inside a specific folder
     path = r'data_out/*.csv'
     files = glob.glob(path)
     print(files)
     os.rename(files[0], 'data_out/data.csv')
     
+
 if __name__ == "__main__":
     print(f"Running create_publication script")
     start_time = timeit.default_timer()
