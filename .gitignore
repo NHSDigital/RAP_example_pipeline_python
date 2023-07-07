@@ -157,5 +157,5 @@ cython_debug/
 .vscode/
 
 # Data folder (empty)
-.data/
 data/
+data_out/

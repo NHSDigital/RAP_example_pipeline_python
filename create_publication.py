@@ -11,6 +11,7 @@ For more info on automated excel outputs, find the automated-excel-publications 
 # this part imports our Python packages, including our project's modules
 import logging
 import timeit 
+import os
 from pathlib import Path
 from src.utils.file_paths import get_config
 from src.utils.logging_config import configure_logging 
@@ -33,7 +34,6 @@ def main():
     configure_logging(log_dir, config)
     logger.info(f"Configured logging with log folder: {log_dir}.")
 
- 
     # get artificial HES data as CSV
     ARTIFICIAL_HES_URL = "https://s3.eu-west-2.amazonaws.com/files.digital.nhs.uk/assets/Services/Artificial+data/Artificial+HES+final/artificial_hes_ae_202302_v1_sample.zip"
     download_zip_from_url(ARTIFICIAL_HES_URL,overwrite=True)
@@ -65,10 +65,33 @@ def main():
     df_hes_region_count.show()
 
     # produce outputs
-    # for table_name, df in publication_breakdowns.items():
-    #     df.to_csv(output_dir / f'{table_name}.csv', index=False)
-    #     logger.info('\n\n%s.csv created!\n', table_name)
-    # logger.info(f"Produced output(s) in folder: {output_dir}.")
+    # os.mkdir('/data_out')
+
+    (df_hes_region_count
+        .repartition(1)
+        .write
+        .mode('overwrite')
+        .option("header", True)
+        .csv("data_out/")
+    )
+
+    import glob
+    import os
+    # absolute path to search all text files inside a specific folder
+    path = r'data_out/*.csv'
+    files = glob.glob(path)
+    print("OIJOIHJOIHO:IHO:IHO:IH")
+    print(files)
+
+    os.rename(files[0], 'data_out/data.csv')
+
+    # (df_hes_region_count
+    #     # .collect()
+    #     # .repartition(1)
+    #     .to_csv("/data.csv")
+    #     # .option("header", True)
+    # )
+
     
 if __name__ == "__main__":
     print(f"Running create_publication script")
