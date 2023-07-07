@@ -11,7 +11,6 @@ For more info on automated excel outputs, find the automated-excel-publications 
 # this part imports our Python packages, including our project's modules
 import logging
 import timeit 
-import os
 from pathlib import Path
 from src.utils.file_paths import get_config
 from src.utils.logging_config import configure_logging 
@@ -19,10 +18,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 import requests
 from src.data_ingestion.get_data import download_zip_from_url
-import glob
-import os
 from src.utils.reading_data import load_csv_into_spark_data_frame
 from src.processing.aggregate_counts import get_aggregate_counts, get_grouped_aggregate_counts
+from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
 
 
 logger = logging.getLogger(__name__)
@@ -59,25 +57,19 @@ def main():
     df_hes_data = load_csv_into_spark_data_frame(spark, data_hes_path)
     
 
-    # Count number of episodes in England
-    df_hes_england_count = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
+    # Creating dictionary
+    outputs = {}
 
 
-    (df_hes_england_count
-        .repartition(1)
-        .write
-        .mode('overwrite')
-        .option("header", True)
-        .csv("data_out/")
-    )
+    # Count number of episodes in England - place this in the outputs dictionary
+    outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
 
-    
-    # absolute path to search all text files inside a specific folder
-    path = r'data_out/*.csv'
-    files = glob.glob(path)
-    print(files)
-    os.rename(files[0], 'data_out/data.csv')
-    
+
+    # Rename and save spark dataframes as CSVs:
+    for output_name in outputs:
+        save_spark_dataframe_as_csv(outputs[output_name], output_name)
+        rename_csv_output(output_name)
+
 
 if __name__ == "__main__":
     print(f"Running create_publication script")
