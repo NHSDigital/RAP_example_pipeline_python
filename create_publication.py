@@ -49,7 +49,7 @@ def main():
     # load latest CSV into dataframe
     df_hes_data = (spark
         .read
-        .csv("data/artificial_hes_ae_202302_v1_sample.zip/artificial_hes_ae_202302_v1_sample/artificial_hes_ae_2122.csv", header=True)
+        .csv("data_in/artificial_hes_ae_202302_v1_sample.zip/artificial_hes_ae_202302_v1_sample/artificial_hes_ae_2122.csv", header=True)
     )
 
 
@@ -80,18 +80,8 @@ def main():
     # absolute path to search all text files inside a specific folder
     path = r'data_out/*.csv'
     files = glob.glob(path)
-    print("OIJOIHJOIHO:IHO:IHO:IH")
     print(files)
-
     os.rename(files[0], 'data_out/data.csv')
-
-    # (df_hes_region_count
-    #     # .collect()
-    #     # .repartition(1)
-    #     .to_csv("/data.csv")
-    #     # .option("header", True)
-    # )
-
     
 if __name__ == "__main__":
     print(f"Running create_publication script")

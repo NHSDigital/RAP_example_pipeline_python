@@ -158,4 +158,5 @@ cython_debug/
 
 # Data folder (empty)
 data/
+data_in/
 data_out/

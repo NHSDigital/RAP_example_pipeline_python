@@ -29,7 +29,7 @@ def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:st
     """
     filename = pathlib.Path(zip_file_url).name
     if output_path is None:
-        output_path = f"data/{filename}"
+        output_path = f"data_in/{filename}"
     if os.path.exists(output_path) and overwrite is True:
         shutil.rmtree(output_path, ignore_errors=False, onerror=None)
     elif os.path.exists(output_path) and overwrite is not True:
