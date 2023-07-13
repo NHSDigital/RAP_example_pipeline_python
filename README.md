@@ -4,24 +4,6 @@
 
 This repo contains a simple example pipeline to act as an example of RAP good-practice with Python.
 
-## Flow Chart
-
-- Input:
-    - Load the Artificial HES data
-    - Save it to a CSV
-- Process:
-    - Work out the following metrics:
-       - Count of episodes
-       - Count of patients 
-    - At the following aggregations:
-       - All England
-       - Trust
-       - Region 
-- Output:
-    - CSV outputs
-    - Graph outputs
-
-
 ## Processes Flow-chart
 
 ```mermaid
@@ -85,26 +67,24 @@ classDef thin_slice fill:#CCFFCC,stroke:#333,stroke-width:4px
 
 The pipeline uses artificial HES data, which was chosen as it is "like" real data used in our industry, but also freely available. 
 
-> Describe the pipeline and why we've made it this way
+This example pipeline uses Apache Spark, which will be installed locally in your environment when you go through the "Getting Started" steps below.
 
-- Get the artificial HES data
-        - This can be a specific code or demographic
+The pipeline follows three steps which are common to almost all analytical pipelines:
 
+1. Getting the data - in this case we download the artificial HES data as a CSV which is saved into folder called 'data_in' on your machine (see the code in src/data_ingestion)
+2. Processing the data - the data is aggregated using Spark's python API, PySpark (the code for this is in src/processing)
+3. Saving the processed data - the processed data is saved as a csv in a folder called 'data_out' (see the code in src/data_exports)
 
 ## Prerequisites
 
-> If applicable, list the items a user needs to be able to use your repository, such as a certain version of a programming language. It can be useful to link to documentation on how to install these items.
-
-* Python (> 3.0)
+This code requires Python (> 3.0), the official Python website has [instructions for downloading and installing python](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 ## Getting Started
-
-> Tell the user how to get started (using a numbered list can be helpful). List one action per step with example code if possible.
 
 1. Clone the repository. To learn about what this means, and how to use Git, see the [Git guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/git/using-git-collaboratively/).
 
 ```
-git clone <insert URL>
+git clone <insert URL (to update once finished)>
 ```
 
 2. Set up your environment, _either_ using [pip](https://pypi.org/project/pip/) or [conda](https://www.anaconda.com/). For more information on how to use virtual environments and why they are important,. see the [virtual environments guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/virtual-environments/why-use-virtual-environments/).
@@ -127,6 +107,18 @@ conda activate <environment_name>
 cd rap-package-template
 python examples/example_create_publication.py
 ```
+
+## Using GitHub codespaces
+
+If you are using GitHub Codespaces, the above installation steps will be completed automatically, so you don't need to do anything! 
+
+Click the "Code" button above, click the "Codespaces" tab, and then click the "+" button to create a new codespace. The environment may take a minute or two to build when you load it for the first time.
+
+## Running the pipeline
+
+To run the pipeline, enter the following command into the terminal. Make sure you are in the same folder as the `create-publication.py` file:
+
+`spark-submit --master local create_publication.py`
 
 ## Project structure
 
@@ -248,7 +240,7 @@ There are several workaround to use this template for your project on GitLab. On
 
 > The [LICENCE](/LICENCE) file will need to be updated with the correct year and owner
 
-Unless stated otherwise, the codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
+This codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
 
 Any HTML or Markdown documentation is [© Crown copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/) and available under the terms of the [Open Government 3.0 licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
 
