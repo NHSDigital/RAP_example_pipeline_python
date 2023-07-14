@@ -12,13 +12,14 @@ For more info on automated excel outputs, find the automated-excel-publications 
 import logging
 import timeit 
 from pathlib import Path
-from src.utils.file_paths import get_config
-from src.utils.logging_config import configure_logging 
-from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 import requests
+
+from src.utils.file_paths import get_config
+from src.utils.logging_config import configure_logging 
+from src.utils.spark import create_spark_session 
 from src.data_ingestion.get_data import download_zip_from_url
-from src.utils.reading_data import load_csv_into_spark_data_frame
+from src.data_ingestion.reading_data import load_csv_into_spark_data_frame
 from src.processing.aggregate_counts import get_aggregate_counts, get_grouped_aggregate_counts
 from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
 
@@ -29,41 +30,30 @@ def main():
     
     # load config, here we load our project's parameters from the config.toml file
     config = get_config("config.toml") 
-    filled_value = config['filled_value']
-    output_dir = Path(config['output_dir'])
-    log_dir = Path(config['log_dir'])
-    data_url = config['data_url']
-    data_hes_path = config['data_hes_path']
-
+    # filled_value = config['filled_value']
+    # output_dir = Path(config['output_dir'])
+    # log_dir = Path(config['log_dir'])
+    # data_url = config['data_url']
+    # data_hes_path = config['hes_data_path']
 
     # configure logging
-    configure_logging(log_dir, config)
-    logger.info(f"Configured logging with log folder: {log_dir}.")
-
+    configure_logging(config['log_dir'], config)
+    logger.info(f"Configured logging with log folder: {config['log_dir']}.")
 
     # get artificial HES data as CSV
-    download_zip_from_url(data_url, overwrite=True)
- 
+    download_zip_from_url(config['data_url'], overwrite=True)
     
     # create spark session
-    spark = (SparkSession
-        .builder
-        .appName('example_pipeline_pyspark_version')
-        .getOrCreate()
-    )
-
+    spark = create_spark_session(config['project_name'])
 
     # Loading data from CSV as spark data frame
-    df_hes_data = load_csv_into_spark_data_frame(spark, data_hes_path)
+    df_hes_data = load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
     
-
-    # Creating dictionary
+    # Creating dictionary to hold outputs
     outputs = {}
-
 
     # Count number of episodes in England - place this in the outputs dictionary
     outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
-
 
     # Rename and save spark dataframes as CSVs:
     for output_name in outputs:

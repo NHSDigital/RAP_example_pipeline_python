@@ -14,7 +14,6 @@ def get_aggregate_counts(df, counting_col, alias_name):
     return df
 
 
-
 def get_grouped_aggregate_counts(df, grouping_col, counting_col, alias_name):
     '''
     Function to get counts in dataframe based on grouping
