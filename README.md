@@ -84,7 +84,7 @@ This code requires Python (> 3.0), the official Python website has [instructions
 1. Clone the repository. To learn about what this means, and how to use Git, see the [Git guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/git/using-git-collaboratively/).
 
 ```
-git clone <insert URL (to update once finished)>
+git clone https://github.com/NHSDigital/RAP_example_pipeline_python
 ```
 
 2. Set up your environment, _either_ using [pip](https://pypi.org/project/pip/) or [conda](https://www.anaconda.com/). For more information on how to use virtual environments and why they are important,. see the [virtual environments guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/virtual-environments/why-use-virtual-environments/).
@@ -209,7 +209,7 @@ There are several workaround to use this template for your project on GitLab. On
 
 1. Clone this repository, making sure to replace `<project name>` in the snippet below to the name of your project, **not using any spaces**. To learn about what this means, and how to use Git, see the [Git guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/git/using-git-collaboratively/).
 
-        git clone https://nhsd-git.digital.nhs.uk/data-services/analytics-service/iuod/rap-repository-template.git <project_name>
+        git clone https://github.com/NHSDigital/RAP_example_pipeline_python <project_name>
 
 2. Change directory into this folder
 
