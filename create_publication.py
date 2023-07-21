@@ -56,8 +56,8 @@ def main():
     outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
 
     # Rename and save spark dataframes as CSVs:
-    for output_name in outputs:
-        save_spark_dataframe_as_csv(outputs[output_name], output_name)
+    for output_name, output in outputs.items():
+        save_spark_dataframe_as_csv(output, output_name)
         rename_csv_output(output_name)
 
 
