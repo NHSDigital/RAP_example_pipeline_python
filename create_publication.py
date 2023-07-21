@@ -29,7 +29,8 @@ logger = logging.getLogger(__name__)
 def main():
     
     # load config, here we load our project's parameters from the config.toml file
-    config = get_config("config.toml") 
+    config = get_config() 
+```)
     # filled_value = config['filled_value']
     # output_dir = Path(config['output_dir'])
     # log_dir = Path(config['log_dir'])
