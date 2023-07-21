@@ -31,11 +31,6 @@ def main():
     # load config, here we load our project's parameters from the config.toml file
     config = get_config() 
 ```)
-    # filled_value = config['filled_value']
-    # output_dir = Path(config['output_dir'])
-    # log_dir = Path(config['log_dir'])
-    # data_url = config['data_url']
-    # data_hes_path = config['hes_data_path']
 
     # configure logging
     configure_logging(config['log_dir'], config)
