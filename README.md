@@ -211,6 +211,10 @@ There are several workaround to use this template for your project on GitLab. On
 1. Clone this repository, making sure to replace `<project name>` in the snippet below to the name of your project, **not using any spaces**. To learn about what this means, and how to use Git, see the [Git guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/git/using-git-collaboratively/).
 
         git clone https://github.com/NHSDigital/RAP_example_pipeline_python <project_name>
+        
+ For example:
+ 
+        git clone https://github.com/NHSDigital/RAP_example_pipeline_python RAP_example_pipeline
 
 2. Change directory into this folder
 
