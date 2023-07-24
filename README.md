@@ -115,9 +115,10 @@ If you are using GitHub Codespaces, the above installation steps will be complet
 Click the "Code" button above, click the "Codespaces" tab, and then click the "+" button to create a new codespace. The environment may take a minute or two to build when you load it for the first time.
 
 ## Running the pipeline
+Before running the pipeline, make sure you are in the same folder as the `create-publication.py` file by entering the following command into the terminal:
+`cd RAP_example_pipeline_python`
 
-To run the pipeline, enter the following command into the terminal. Make sure you are in the same folder as the `create-publication.py` file:
-
+To run the pipeline, enter the following command into the terminal:
 `spark-submit --master local create_publication.py`
 
 ## Project structure
