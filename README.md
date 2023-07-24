@@ -90,13 +90,27 @@ git clone https://github.com/NHSDigital/RAP_example_pipeline_python
 2. Set up your environment, _either_ using [pip](https://pypi.org/project/pip/) or [conda](https://www.anaconda.com/). For more information on how to use virtual environments and why they are important,. see the [virtual environments guide](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/virtual-environments/why-use-virtual-environments/).
 
 ### Using pip
+
+If you're using Windows, enter the following commands into the Command Line or Powershell:
+
 ```
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 ```
+
+If you're using Linux or MacOS, enter the following commands into the Terminal:
+
+```
+python -m venv .venv
+source venv/bin/activatee
+python -m pip install -r requirements.txt
+```
+
 For Visual Studio Code it is necessary that you change your default interpreter to the virtual environment you just created .venv. To do this use the shortcut Ctrl-Shift-P, search for Python: Select interpreter and select .venv from the list.
+
 ### Using conda
+
 The first line of the `environment.yml` file sets the new environment's name. In this template, the name is `rap_template`- you should change this in the `environment.yml` file, as well as the following code, to the name of your project.
 ```
 conda env create -f environment.yml
