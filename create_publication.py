@@ -11,9 +11,7 @@ For more info on automated excel outputs, find the automated-excel-publications 
 # this part imports our Python packages, including our project's modules
 import logging
 import timeit 
-from pathlib import Path
 from pyspark.sql import functions as F
-import requests
 
 from src.utils.file_paths import get_config
 from src.utils.logging_config import configure_logging 
