@@ -20,7 +20,7 @@ from src.utils.logging_config import configure_logging
 from src.utils.spark import create_spark_session 
 from src.data_ingestion.get_data import download_zip_from_url
 from src.data_ingestion.reading_data import load_csv_into_spark_data_frame
-from src.processing.aggregate_counts import get_aggregate_counts, get_grouped_aggregate_counts
+from src.processing.aggregate_counts import get_aggregate_counts
 from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
 
 
