@@ -156,7 +156,9 @@ cython_debug/
 # VS Code project files
 .vscode/
 
-# Data folder (empty)
-data/
-data_in/
-data_out/
+# Data folders
+data_in/*
+!data_in/.gitkeep
+
+data_out/*
+!data_out/.gitkeep

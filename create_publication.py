@@ -30,7 +30,6 @@ def main():
     
     # load config, here we load our project's parameters from the config.toml file
     config = get_config() 
-```)
 
     # configure logging
     configure_logging(config['log_dir'], config)
