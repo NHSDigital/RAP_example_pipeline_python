@@ -162,3 +162,6 @@ data_in/*
 
 data_out/*
 !data_out/.gitkeep
+
+# build files
+oryx-build-commands.txt
