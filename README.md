@@ -103,7 +103,7 @@ If you're using Linux or MacOS, enter the following commands into the Terminal:
 
 ```
 python -m venv .venv
-source venv/bin/activatee
+source venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
