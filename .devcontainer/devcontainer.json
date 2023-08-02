@@ -1,0 +1,8 @@
+{
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "8"
+		},
+	},
+	"postCreateCommand": "pip install -r requirements.txt"
+}

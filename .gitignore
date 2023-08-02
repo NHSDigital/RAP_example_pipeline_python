@@ -155,3 +155,13 @@ cython_debug/
 
 # VS Code project files
 .vscode/
+
+# Data folders
+data_in/*
+!data_in/.gitkeep
+
+data_out/*
+!data_out/.gitkeep
+
+# build files
+oryx-build-commands.txt

@@ -11,66 +11,49 @@ For more info on automated excel outputs, find the automated-excel-publications 
 # this part imports our Python packages, including our project's modules
 import logging
 import timeit 
-from pathlib import Path
-from src.utils.data_connections import read_sql_file, get_df_from_server, make_database_connection
+from pyspark.sql import functions as F
+
 from src.utils.file_paths import get_config
 from src.utils.logging_config import configure_logging 
-from src.processing.clean import calculate_years, process_columns
-from src.processing.derive_fields import gp_count_by_region, calculate_mean_years
+from src.utils.spark import create_spark_session 
+from src.data_ingestion.get_data import download_zip_from_url
+from src.data_ingestion.reading_data import load_csv_into_spark_data_frame
+from src.processing.aggregate_counts import get_aggregate_counts
+from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
+
 
 logger = logging.getLogger(__name__)
 
 def main():
     
     # load config, here we load our project's parameters from the config.toml file
-    config = get_config("config.toml") 
-    server = config ['server']
-    database = config['database']
-    schema = config['schema']
-    table = config['table']
-    filled_value = config['filled_value']
-    output_dir = Path(config['output_dir'])
-    log_dir = Path(config['log_dir'])
+    config = get_config() 
 
     # configure logging
-    configure_logging(log_dir, config)
-    logger.info(f"Configured logging with log folder: {log_dir}.")
+    configure_logging(config['log_dir'], config)
+    logger.info(f"Configured logging with log folder: {config['log_dir']}.")
 
-    # sets up database connection
-    conn = make_database_connection(server, database)
-
-    # load data, this part handles importing our data sources     
-    query = read_sql_file('sql', 'example.sql', database, schema, table)
-    gp_df = get_df_from_server(conn, server, database, query)
-
-    # follow pre-processing steps  
-    gp_df.rename(columns={'ADDRESS_LINE_5': 'REGION', 
-                       'OPEN_DATE': 'OPENED', 
-                       'CLOSE_DATE': 'CLOSED'}, inplace=True)
+    # get artificial HES data as CSV
+    download_zip_from_url(config['data_url'], overwrite=True)
     
-    gp_df = process_columns(gp_df, 
-        date_col_names = ['OPENED', 'CLOSED'], 
-        string_col_names= ['REGION', 'NAME']
-        )
+    # create spark session
+    spark = create_spark_session(config['project_name'])
 
-    gp_df = calculate_years(filled_value, gp_df)
-        
-    # prepare data for CSV
-    publication_breakdowns = {}
-    publication_breakdowns['gp_data'] = gp_df
-
-    # follow data processing steps
-    region_df = gp_count_by_region(gp_df)
-    region_df = calculate_mean_years(region_df, gp_df)
-
-    publication_breakdowns['region_data'] = region_df
-
-    # produce outputs
-    for table_name, df in publication_breakdowns.items():
-        df.to_csv(output_dir / f'{table_name}.csv', index=False)
-        logger.info('\n\n%s.csv created!\n', table_name)
-    logger.info(f"Produced output(s) in folder: {output_dir}.")
+    # Loading data from CSV as spark data frame
+    df_hes_data = load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
     
+    # Creating dictionary to hold outputs
+    outputs = {}
+
+    # Count number of episodes in England - place this in the outputs dictionary
+    outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
+
+    # Rename and save spark dataframes as CSVs:
+    for output_name, output in outputs.items():
+        save_spark_dataframe_as_csv(output, output_name)
+        rename_csv_output(output_name)
+
+
 if __name__ == "__main__":
     print(f"Running create_publication script")
     start_time = timeit.default_timer()
