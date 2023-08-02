@@ -35,7 +35,6 @@ def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:st
             shutil.rmtree(output_path, ignore_errors=False, onerror=None)
         else:
             raise Exception(f"The zipfile already exists at: {output_path}")
-                 
 
     response = requests.get(zip_file_url, stream=True,timeout=3600)
     downloaded_zip = zipfile.ZipFile(io.BytesIO(response.content))
