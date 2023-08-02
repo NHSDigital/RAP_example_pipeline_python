@@ -133,7 +133,7 @@ Before running the pipeline, make sure you are in the same folder as the `create
 `cd RAP_example_pipeline_python`
 
 To run the pipeline, enter the following command into the terminal:
-`spark-submit --master local create_publication.py`
+`python create_publication.py`
 
 ## Project structure
 
@@ -256,7 +256,6 @@ There are several workaround to use this template for your project on GitLab. On
 -----------
 
 ## Licence
-
 
 This codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
 
