@@ -15,7 +15,6 @@ def save_spark_dataframe_as_csv(df_output, output_name):
     )
 
 
-
 def rename_csv_output(output_name):
     '''
     Function to rename default spark file name to the name specified in the outputs dictionary
