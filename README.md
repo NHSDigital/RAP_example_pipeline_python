@@ -257,7 +257,6 @@ There are several workaround to use this template for your project on GitLab. On
 
 ## Licence
 
-> The [LICENCE](/LICENCE) file will need to be updated with the correct year and owner
 
 This codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
 
