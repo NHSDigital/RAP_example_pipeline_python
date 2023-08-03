@@ -202,6 +202,8 @@ This directory contains the meaty parts of the code. By organising the code into
 * `utils` folder contains useful reusable functions (e.g. to set up logging, and importing configuration settings from `config.toml`)
 * `write_excel.py` contains functions relating to the final part of the pipeline, any exporting or templating happens here. This is a simplistic application of writing output code to an Excel spreadsheet template (.xlsx). A good example of this application is: [NHS sickness absence rates publication](https://github.com/NHSDigital/absence-rates). We highly recommend to use [Automated Excel Production](https://nhsd-git.digital.nhs.uk/data-services/analytics-service/iuod/automated-excel-publications) for a more in depth Excel template production application.
 
+-----------
+
 ## Licence
 
 This codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
