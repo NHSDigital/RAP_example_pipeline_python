@@ -6,7 +6,9 @@ import toml
 
 logger = logging.getLogger(__name__)
 
-def get_config(toml_path = "config.toml") -> dict:
+def get_config(
+    toml_path : str="config.toml"
+) -> dict:
     """Gets the config toml from the root directory and returns it as a dict. Can be called from any file in the project
 
     Returns:

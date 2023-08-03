@@ -8,7 +8,11 @@ import pathlib
 import requests
 
 
-def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:str=None) -> str:
+def download_zip_from_url(
+    zip_file_url : str, 
+    overwrite : bool=False, 
+    output_path : str=None
+) -> str:
     """Downloads a zipfile from the specified URL
     
     Parameters

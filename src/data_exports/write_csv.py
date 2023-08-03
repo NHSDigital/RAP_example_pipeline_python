@@ -1,7 +1,11 @@
 import os
 import glob
+from pyspark import sql as pyspark
 
-def save_spark_dataframe_as_csv(df_output, output_name):
+def save_spark_dataframe_as_csv(
+    df_output : pyspark.DataFrame, 
+    output_name : str
+) -> None:
     '''
     Function to save spark dataframe saved within the outputs dictionary as a csv
     '''
@@ -15,7 +19,9 @@ def save_spark_dataframe_as_csv(df_output, output_name):
     )
 
 
-def rename_csv_output(output_name):
+def rename_csv_output(
+    output_name : str
+) -> None:
     '''
     Function to rename default spark file name to the name specified in the outputs dictionary
     '''

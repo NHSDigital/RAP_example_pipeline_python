@@ -9,7 +9,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def configure_logging(log_folder, config) -> None:
+def configure_logging(
+    log_folder : str, 
+    config : dict
+) -> None:
     """Set up logging format and location to store logs
 
     Please store logs in a secure location (e.g. IC Green) and not on your local machine as they may contain traces of data.
