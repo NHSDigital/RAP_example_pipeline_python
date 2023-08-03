@@ -137,28 +137,35 @@ To run the pipeline, enter the following command into the terminal:
 |
 |   create_publication.py             <- Runs the overall pipeline to produce the publication     
 |
++---data_in                           <- Stores imported data that will be used to create the outputs
+|   |       .gitkeep                  <- Empty file that enables the data_in folder to be committed
++---data_out                          <- Outputs and aggregations created by the pipeline are stored here
+|   |       .gitkeep                  <- Empty file that enables the data_in folder to be committed
 +---src                               <- Scripts with functions for use in 'create_publication.py'. Contains project's codebase.
 |   |       __init__.py               <- Makes the functions folder an importable Python module
 |   |
-|   +---utils                     <- Scripts relating to configuration and handling data connections e.g. importing data, writing to a database etc.
+|   +---utils                         <- Scripts relating to configuration and handling data connections e.g. importing data, writing to a database etc.
 |   |       __init__.py               <- Makes the functions folder an importable Python module
 |   |       file_paths.py             <- Configures file paths for the package
 |   |       logging_config.py         <- Configures logging
-|   |       data_connections.py       <- Handles data connections i.e. reading/writing dataframes from SQL Server
+|   |       spark.py                  <- For setting up and configuring Apache Spark
 |   | 
 |   +---processing                    <- Scripts with modules containing functions to process data i.e. clean and derive new fields
 |   |       __init__.py               <- Makes the functions folder an importable Python module
 |   |       clean.py                  <- Perform cleaning and wrangling processes 
-|   |       derive_fields.py          <- Create new field definitions, columns, derivations.
+|   |       aggregate_counts.py       <- Creates aggregations and counts based on the imported data
 |   | 
 |   +---data_ingestion                <- Scripts with modules containing functions to preprocess read data i.e. perform validation/data quality checks, other preprocessing etc.
 |   |       __init__.py               <- Makes the functions folder an importable Python module
+|   |       get_data.py               <- Imports data and saves it to the data_in folder
 |   |       preprocessing.py          <- Perform preprocessing, for example preparing your data for metadata or data quality checks.
 |   |       validation_checks.py      <- Perform validation checks e.g. a field has acceptable values.
+|   |       reading_data.py           <- Reads the imported and validated data into a spark dataframe ready for processing
 |   |
 |   +---data_exports
 |   |       __init__.py               <- Makes the functions folder an importable Python module
 |   |       write_excel.py            <- Populates an excel .xlsx template with values from your CSV output.
+|   |       write_csv.py              <- Save outputs in CSV format to the data_out folder
 |   |
 +---sql                               <- SQL scripts for importing data  
 |       example.sql
@@ -190,14 +197,10 @@ This file currently runs a set of example steps using example data.
 
 This directory contains the meaty parts of the code. By organising the code into logical sections, we make it easier to understand, maintain and test. Moreover, tucking the complex code out of the way means that users don't need to understand everything about the code all at once.
 
-* `data_connections.py` handles reading data in and writing data back out.
+* `data_ingestion/get_data.py` handles reading data in
 * `processing` folder contains the core business logic.
 * `utils` folder contains useful reusable functions (e.g. to set up logging, and importing configuration settings from `config.toml`)
 * `write_excel.py` contains functions relating to the final part of the pipeline, any exporting or templating happens here. This is a simplistic application of writing output code to an Excel spreadsheet template (.xlsx). A good example of this application is: [NHS sickness absence rates publication](https://github.com/NHSDigital/absence-rates). We highly recommend to use [Automated Excel Production](https://nhsd-git.digital.nhs.uk/data-services/analytics-service/iuod/automated-excel-publications) for a more in depth Excel template production application.
-
-## Adapting for your project
-
-> Help users configure the repository for their needs. Note that the GitHub/GitLab differentiation is not a usual requirement for a README.
 
 ### On GitHub
 
