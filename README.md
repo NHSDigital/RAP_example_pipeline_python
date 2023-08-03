@@ -200,7 +200,7 @@ This directory contains the meaty parts of the code. By organising the code into
 * `data_ingestion/get_data.py` handles reading data in
 * `processing` folder contains the core business logic.
 * `utils` folder contains useful reusable functions (e.g. to set up logging, and importing configuration settings from `config.toml`)
-* `write_excel.py` contains functions relating to the final part of the pipeline, any exporting or templating happens here. This is a simplistic application of writing output code to an Excel spreadsheet template (.xlsx). A good example of this application is: [NHS sickness absence rates publication](https://github.com/NHSDigital/absence-rates). We highly recommend to use [Automated Excel Production](https://nhsd-git.digital.nhs.uk/data-services/analytics-service/iuod/automated-excel-publications) for a more in depth Excel template production application.
+* `write_csv.py` contains functions relating to the final part of the pipeline, where the aggregated figures are saved as CSV files in the data_out folder
 
 -----------
 
