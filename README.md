@@ -167,9 +167,6 @@ To run the pipeline, enter the following command into the terminal:
 |   |       write_excel.py            <- Populates an excel .xlsx template with values from your CSV output.
 |   |       write_csv.py              <- Save outputs in CSV format to the data_out folder
 |   |
-+---sql                               <- SQL scripts for importing data  
-|       example.sql
-|
 +---templates                         <- Templates for output files
 |       publication_template.xlsx
 |
