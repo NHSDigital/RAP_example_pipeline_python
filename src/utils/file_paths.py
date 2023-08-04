@@ -3,6 +3,7 @@ Purpose of the script: loads config
 """
 import logging
 import toml
+import pathlib
 
 logger = logging.getLogger(__name__)
 
@@ -16,5 +17,5 @@ def get_config(toml_path = "config.toml") -> dict:
         from shmi_improvement.utilities.helpers import get_config
         config = get_config()
     """
-    return toml.load(toml_path)
+    return toml.load(pathlib.Path(toml_path))
     

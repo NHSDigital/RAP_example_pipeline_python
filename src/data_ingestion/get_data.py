@@ -8,7 +8,11 @@ import pathlib
 import requests
 
 
-def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:str=None) -> str:
+def download_zip_from_url(
+    zip_file_url : str, 
+    overwrite : bool = False, 
+    output_path : str = None
+) -> str:
     """Downloads a zipfile from the specified URL
     
     Parameters
@@ -29,8 +33,10 @@ def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:st
     """
     filename = pathlib.Path(zip_file_url).name
     if output_path is None:
-        output_path = f"data_in/{filename}"
-    if os.path.exists(output_path):
+        output_path = pathlib.Path(f"data_in/{filename}")
+    else:
+        output_path = pathlib.Path(f"{output_path}/{filename}")
+    if output_path.exists():
         if overwrite:
             shutil.rmtree(output_path, ignore_errors=False, onerror=None)
         else:
