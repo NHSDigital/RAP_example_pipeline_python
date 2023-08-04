@@ -1,16 +1,30 @@
 """
-Purpose of the script:  to provide a starting point for the basis of your pipeline using example data from SQL server
+Purpose of the script:  to provide an example of good practices when structuring a pipeline using PySpark
 
 The script loads Python packages but also internal modules (e.g. modules.helpers, helpers script from the modules folder).
-It then loads various configuration variables and a logger, for more info on this find the RAP Community of Practice Repo on Github
+It then loads various configuration variables and a logger, for more info on see the RAP Community of Practice website:
+https://nhsdigital.github.io/rap-community-of-practice/
 
-Then, we call some basic SQL functions to load in our data, process it and write our outputs to an appropriate file type (e.g. CSV, Excel)
-For more info on automated excel outputs, find the automated-excel-publications repo on Gitlab.
+Most of the code to carry out this configuration and setup is found in the utils folder.
+
+Then, the main pipeline itself begins, which has three phases:
+
+data_ingestion: 
+    we download the artificial hes data, load it into a spark dataframe. Any other cleaning or preprocessing should
+    happen at this stage
+processing: 
+    we process the data as needed, in this case we create some aggregate counts based on the hes data
+data_exports: 
+    finally we write our outputs to an appropriate file type (CSV)
+
+Note that in the src folder, each of these phases has its own folder, to neatly organise the code used for each one.
+
 """
 
-# this part imports our Python packages, including our project's modules
+# this part imports our Python packages, pyspark functions, and our project's own modules
 import logging
 import timeit 
+
 from pyspark.sql import functions as F
 
 from src.utils.file_paths import get_config
@@ -35,23 +49,30 @@ def main():
 
     # get artificial HES data as CSV
     download_zip_from_url(config['data_url'], overwrite=True)
-    
+    logger.info(f"Downloaded artificial hes as zip.")
+
     # create spark session
     spark = create_spark_session(config['project_name'])
+    logger.info(f"created spark session with app name: {config['project_name']}")
 
     # Loading data from CSV as spark data frame
     df_hes_data = load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
-    
+    logger.info(f"created spark DataFrame from hes data")
+
     # Creating dictionary to hold outputs
     outputs = {}
+    logger.info(f"created outputs dictionary")
 
     # Count number of episodes in England - place this in the outputs dictionary
     outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
+    logger.info(f"created count of episodes in England")
 
     # Rename and save spark dataframes as CSVs:
     for output_name, output in outputs.items():
         save_spark_dataframe_as_csv(output, output_name)
+        logger.info(f"saved output df {output_name} as csv")
         rename_csv_output(output_name)
+        logger.info(f"renamed {output_name} file")
 
 
 if __name__ == "__main__":
@@ -59,4 +80,4 @@ if __name__ == "__main__":
     start_time = timeit.default_timer()
     main()
     total_time = timeit.default_timer() - start_time
-    print(f"Running time of create_publication script: {int(total_time / 60)} minutes and {round(total_time%60)} seconds.\n")
+    logger.info(f"Running time of create_publication script: {int(total_time / 60)} minutes and {round(total_time%60)} seconds.\n")

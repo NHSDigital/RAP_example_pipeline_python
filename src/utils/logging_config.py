@@ -3,9 +3,8 @@ Purpose of the script: configures logging
 """
 import sys
 import time
-
-from datetime import datetime 
 import logging
+from datetime import datetime 
 
 logger = logging.getLogger(__name__)
 
