@@ -1,7 +1,7 @@
 from pyspark import sql as pyspark
 
 def create_spark_session(
-    app_name = "spark_pipeline" : str
+    app_name : str = "spark_pipeline"
 ) -> pyspark.SparkSession:
     """
         Creates a spark session: this is needed to run PySpark code.

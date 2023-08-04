@@ -5,7 +5,7 @@ from pyspark import sql as pyspark
 def get_aggregate_counts(
     df_unaggregated : pyspark.DataFrame,
     counting_col : str, 
-    alias_name = "distinct_count": str
+    alias_name : str = "distinct_count"
 ) -> pyspark.DataFrame:
     """
         Takes a spark dataframe and column, and returns the distinct count
@@ -38,7 +38,7 @@ def get_grouped_aggregate_counts(
     df_unaggregated : pyspark.DataFrame,
     grouping_col : str,
     counting_col : str, 
-    alias_name = "distinct_count": str
+    alias_name : str = "distinct_count"
 ) -> pyspark.DataFrame:
     """
         Takes a spark dataframe and column, groups by a specified column, and 
