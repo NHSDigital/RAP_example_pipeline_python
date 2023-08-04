@@ -2,13 +2,25 @@ from pyspark import sql as pyspark
 
 def load_csv_into_spark_data_frame(
     spark : pyspark.SparkSession, 
-    data_hes_path : str
+    path_to_csv : str
 ) -> pyspark.DataFrame:
-    '''
-    A function to load the data from CSV into a spark dataframe using path defined
-    '''
-    df_hes_data = (spark
+    """
+        loads the data from a CSV at a specified path into a spark dataframe
+
+    Parameters
+    ----------
+        spark : pyspark.SparkSession
+            The SparkSession for the spark app
+        path_to_csv : str
+            The path to the csv from which you want to create the spark df
+
+    Returns
+    -------
+        pyspark.DataFrame :
+            The spark dataframe holding the data that was in the CSV
+    """
+    df_from_csv = (spark
         .read
-        .csv(data_hes_path, header=True)
+        .csv(path_to_csv, header=True)
     )
-    return df_hes_data
+    return df_from_csv

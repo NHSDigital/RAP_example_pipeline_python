@@ -17,9 +17,12 @@ def configure_logging(
 
     Please store logs in a secure location (e.g. IC Green) and not on your local machine as they may contain traces of data.
     
-    Parameters:
-        log_folder: directory to store logs
-        config: dictionary of configuration
+    Parameters
+    ----------
+        log_folder : str
+            directory to store logs
+        config : dict
+            dictionary of configuration
     """
     logging.basicConfig(
         level=logging.INFO,
