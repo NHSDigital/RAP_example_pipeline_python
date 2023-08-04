@@ -4,7 +4,6 @@ Purpose of the script: configures logging
 import sys
 import time
 import logging
-from datetime import datetime 
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +26,3 @@ def configure_logging(log_folder, config) -> None:
         ]  
     )
     logger = logging.getLogger(__name__)
-
-    logger.info(f"Logging the config settings:\n\n\t{config}\n")
-    logger.info(f"Starting run at:\t{datetime.now().time()}")

@@ -24,6 +24,7 @@ Note that in the src folder, each of these phases has its own folder, to neatly 
 # this part imports our Python packages, pyspark functions, and our project's own modules
 import logging
 import timeit 
+from datetime import datetime 
 
 from pyspark.sql import functions as F
 
@@ -46,6 +47,8 @@ def main():
     # configure logging
     configure_logging(config['log_dir'], config)
     logger.info(f"Configured logging with log folder: {config['log_dir']}.")
+    logger.info(f"Logging the config settings:\n\n\t{config}\n")
+    logger.info(f"Starting run at:\t{datetime.now().time()}")
 
     # get artificial HES data as CSV
     download_zip_from_url(config['data_url'], overwrite=True)
