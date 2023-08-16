@@ -2,25 +2,15 @@ import pytest
 import pandas
 
 from src.processing import aggregate_counts as aggregate_counts
+from src.utils import spark as spark_utils
 from pyspark.sql import functions as F
 from pyspark.sql import SparkSession
-
-def create_spark_session(app_name):
-    """Creates a spark session: this is needed to run PySpark code."""
-    spark_session = (SparkSession
-        .builder
-        .appName(app_name)
-        .getOrCreate()
-    )
-
-    return spark_session
-
 
 def test_get_aggregate_counts():
     """
     Tests get_aggregate_counts
     """
-    spark = create_spark_session('unit_tests')
+    spark = spark_utils.create_spark_session('tests')
 
     expected_data = [
         (3,),
@@ -48,7 +38,7 @@ def test_get_grouped_aggregate_counts():
     """
     Tests get_aggregate_counts
     """
-    spark = create_spark_session('unit_tests')
+    spark = spark_utils.create_spark_session('tests')
 
     expected_data = [
         ('group_1', 1),
