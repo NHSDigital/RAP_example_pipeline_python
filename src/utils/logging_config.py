@@ -3,7 +3,7 @@ Purpose of the script: configures logging
 """
 import sys
 import time
-
+from pathlib import Path
 from datetime import datetime 
 import logging
 
@@ -29,7 +29,7 @@ def configure_logging(
         format='%(asctime)s - %(levelname)s -- %(filename)s:\
                 %(funcName)5s():%(lineno)s -- %(message)s',
         handlers=[
-            logging.FileHandler(f".{log_folder}/{time.strftime('%Y-%m-%d_%H-%M-%S')}.log"),
+            logging.FileHandler(str(Path(f".{log_folder}/{time.strftime('%Y-%m-%d_%H-%M-%S')}.log"))),
             logging.StreamHandler(sys.stdout) # Add second handler to print log message to screen
         ]  
     )

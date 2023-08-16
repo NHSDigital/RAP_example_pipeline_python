@@ -1,5 +1,6 @@
 import os
 import glob
+from pathlib import Path
 from pyspark import sql as pyspark
 
 def save_spark_dataframe_as_csv(
@@ -22,7 +23,7 @@ def save_spark_dataframe_as_csv(
         .write
         .mode('overwrite')
         .option("header", True)
-        .csv(f"data_out/{output_folder}/")
+        .csv(str(Path(f"data_out/{output_folder}")))
     )
 
 
@@ -43,4 +44,4 @@ def rename_csv_output(
     path = rf'data_out/{output_name}/*.csv'
     files = glob.glob(path)
     print(files)
-    os.rename(files[0], f'data_out/{output_name}/{output_name}.csv')
+    os.rename(files[0], str(Path(f'data_out/{output_name}/{output_name}.csv')) )
