@@ -14,7 +14,7 @@ import pytest
 from src.processing.clean import *
 
 # example
-def test_convert_date_to_year():
+def test_convert_date_to_year() -> None:
     """
     Testing convert_date_to_year function.
     """

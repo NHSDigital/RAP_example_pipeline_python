@@ -11,6 +11,7 @@ For more info on automated excel outputs, find the automated-excel-publications 
 # this part imports our Python packages, including our project's modules
 import logging
 import timeit 
+from pathlib import Path
 from pyspark.sql import functions as F
 
 from src.utils.file_paths import get_config
@@ -40,7 +41,7 @@ def main():
     spark = create_spark_session(config['project_name'])
 
     # Loading data from CSV as spark data frame
-    df_hes_data = load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
+    df_hes_data = load_csv_into_spark_data_frame(spark, str(Path(config['path_to_downloaded_data'])))
     
     # Creating dictionary to hold outputs
     outputs = {}
