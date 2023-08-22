@@ -14,13 +14,13 @@ import timeit
 from pathlib import Path
 from pyspark.sql import functions as F
 
-from src.utils.file_paths import get_config
-from src.utils.logging_config import configure_logging 
-from src.utils.spark import create_spark_session 
-from src.data_ingestion.get_data import download_zip_from_url
-from src.data_ingestion.reading_data import load_csv_into_spark_data_frame
-from src.processing.aggregate_counts import get_aggregate_counts
-from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
+from src.utils import file_paths
+from src.utils import logging_config
+from src.utils import spark as spark_utils
+from src.data_ingestion import get_data
+from src.data_ingestion import reading_data
+from src.processing import aggregate_counts
+from src.data_exports import write_csv
 
 
 logger = logging.getLogger(__name__)
@@ -28,31 +28,31 @@ logger = logging.getLogger(__name__)
 def main():
     
     # load config, here we load our project's parameters from the config.toml file
-    config = get_config() 
+    config = file_paths.get_config() 
 
     # configure logging
-    configure_logging(config['log_dir'], config)
+    logging_config.configure_logging(config['log_dir'], config)
     logger.info(f"Configured logging with log folder: {config['log_dir']}.")
 
     # get artificial HES data as CSV
-    download_zip_from_url(config['data_url'], overwrite=True)
+    get_data.download_zip_from_url(config['data_url'], overwrite=True)
     
     # create spark session
-    spark = create_spark_session(config['project_name'])
+    spark = spark_utils.create_spark_session(config['project_name'])
 
     # Loading data from CSV as spark data frame
-    df_hes_data = load_csv_into_spark_data_frame(spark, str(Path(config['path_to_downloaded_data'])))
+    df_hes_data = reading_data.load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
     
     # Creating dictionary to hold outputs
     outputs = {}
 
     # Count number of episodes in England - place this in the outputs dictionary
-    outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
+    outputs["df_hes_england_count"] = aggregate_counts.get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
 
     # Rename and save spark dataframes as CSVs:
     for output_name, output in outputs.items():
-        save_spark_dataframe_as_csv(output, output_name)
-        rename_csv_output(output_name)
+        write_csv.save_spark_dataframe_as_csv(output, output_name)
+        write_csv.rename_csv_output(output_name)
 
 
 if __name__ == "__main__":
