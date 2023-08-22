@@ -30,4 +30,5 @@ def get_config(
         config = get_config()
     """
     return toml.load(pathlib.Path(toml_path))
+
     
