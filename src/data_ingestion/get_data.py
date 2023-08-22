@@ -4,11 +4,15 @@ import zipfile
 import shutil
 import os
 import io
-import pathlib
+from pathlib import Path
 import requests
 
 
-def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:str=None) -> str:
+def download_zip_from_url(
+    zip_file_url : str, 
+    overwrite : bool = False, 
+    output_path : str = None
+) -> str:
     """Downloads a zipfile from the specified URL
     
     Parameters
@@ -27,10 +31,12 @@ def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:st
     output_path : str
 
     """
-    filename = pathlib.Path(zip_file_url).name
+    filename = Path(zip_file_url).name
     if output_path is None:
-        output_path = f"data_in/{filename}"
-    if os.path.exists(output_path):
+        output_path = Path(f"data_in/{filename}")
+    else:
+        output_path = Path(f"{output_path}/{filename}")
+    if output_path.exists():
         if overwrite:
             shutil.rmtree(output_path, ignore_errors=False, onerror=None)
         else:
@@ -39,9 +45,5 @@ def download_zip_from_url(zip_file_url:str, overwrite:bool=False, output_path:st
     response = requests.get(zip_file_url, stream=True,timeout=3600)
     downloaded_zip = zipfile.ZipFile(io.BytesIO(response.content))
     downloaded_zip.extractall(output_path)
-    return output_path
 
-
-if __name__ == "__main__":
-    ARTIFICIAL_HES_URL = "https://s3.eu-west-2.amazonaws.com/files.digital.nhs.uk/assets/Services/Artificial+data/Artificial+HES+final/artificial_hes_ae_202302_v1_sample.zip"
-    download_zip_from_url(ARTIFICIAL_HES_URL,overwrite=True)
+    return str(output_path)
