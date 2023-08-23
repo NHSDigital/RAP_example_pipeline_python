@@ -7,7 +7,7 @@ bt_params = {
     'files_to_compare': [
         {
             'new_output': 'df_hes_england_count/df_hes_england_count.csv',
-            'ground_truth': 'expected_output.csv',
+            'ground_truth': 'hes_england_count_expected_output.csv',
         },
     ]
 }
