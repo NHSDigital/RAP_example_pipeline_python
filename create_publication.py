@@ -60,11 +60,10 @@ def main():
 
     # Loading data from CSV as spark data frame
     df_hes_data = load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
-    logger.info(f"created spark DataFrame from hes data")
 
     # Creating dictionary to hold outputs
     outputs = {}
-    logger.info(f"created outputs dictionary")
+
 
     # Count number of episodes in England - place this in the outputs dictionary
     outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
