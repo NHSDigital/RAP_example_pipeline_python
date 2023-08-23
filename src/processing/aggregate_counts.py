@@ -1,7 +1,7 @@
 
 from pyspark.sql import functions as F
 
-def get_aggregate_counts(df_unaggregated, counting_col, alias_name):
+def get_distinct_count(df_unaggregated, counting_col, alias_name):
     '''
     Function to get counts in dataframe 
     '''
@@ -12,7 +12,7 @@ def get_aggregate_counts(df_unaggregated, counting_col, alias_name):
     return df_aggregated
 
 
-def get_grouped_aggregate_counts(df_unaggregated, grouping_col, counting_col, alias_name):
+def get_grouped_distinct_counts(df_unaggregated, grouping_col, counting_col, alias_name):
     '''
     Function to get counts in dataframe based on grouping
     '''

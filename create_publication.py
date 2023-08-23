@@ -18,7 +18,7 @@ from src.utils.logging_config import configure_logging
 from src.utils.spark import create_spark_session 
 from src.data_ingestion.get_data import download_zip_from_url
 from src.data_ingestion.reading_data import load_csv_into_spark_data_frame
-from src.processing.aggregate_counts import get_aggregate_counts
+from src.processing.aggregate_counts import get_distinct_count
 from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
 
 
@@ -46,7 +46,7 @@ def main():
     outputs = {}
 
     # Count number of episodes in England - place this in the outputs dictionary
-    outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
+    outputs["df_hes_england_count"] = get_distinct_count(df_hes_data, 'epikey', 'number_of_episodes')
 
     # Rename and save spark dataframes as CSVs:
     for output_name, output in outputs.items():

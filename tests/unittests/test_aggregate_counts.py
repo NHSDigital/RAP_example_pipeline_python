@@ -6,9 +6,9 @@ from src.utils import spark as spark_utils
 from pyspark.sql import functions as F
 from pyspark.sql import SparkSession
 
-def test_get_aggregate_counts():
+def test_distinct_count():
     """
-    Tests get_aggregate_counts
+    Tests get_distinct_counts
     """
     spark = spark_utils.create_spark_session('tests')
 
@@ -29,14 +29,14 @@ def test_get_aggregate_counts():
     unaggregated_cols = ['group_name']
     df_unaggregated = spark.createDataFrame(unaggregated_data, unaggregated_cols)
 
-    df_actual = aggregate_counts.get_aggregate_counts(df_unaggregated, 'group_name', 'count')
+    df_actual = aggregate_counts.get_distinct_count(df_unaggregated, 'group_name', 'count')
 
     assert df_actual.toPandas().equals(df_expected.toPandas())
     
 
-def test_get_grouped_aggregate_counts():
+def test_get_grouped_distinct_counts():
     """
-    Tests get_aggregate_counts
+    Tests get_distinct_counts
     """
     spark = spark_utils.create_spark_session('tests')
 
@@ -58,6 +58,6 @@ def test_get_grouped_aggregate_counts():
     unaggregated_cols = ['group_name', 'values']
     df_unaggregated = spark.createDataFrame(unaggregated_data, unaggregated_cols)
 
-    df_actual = aggregate_counts.get_grouped_aggregate_counts(df_unaggregated, 'group_name', 'values', 'count')
+    df_actual = aggregate_counts.get_grouped_distinct_counts(df_unaggregated, 'group_name', 'values', 'count')
 
     assert df_actual.toPandas().equals(df_expected.toPandas())
