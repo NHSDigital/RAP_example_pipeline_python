@@ -28,24 +28,23 @@ from datetime import datetime
 
 from pyspark.sql import functions as F
 
-from src.utils.file_paths import get_config
-from src.utils.logging_config import configure_logging 
-from src.utils.spark import create_spark_session 
-from src.data_ingestion.get_data import download_zip_from_url
-from src.data_ingestion.reading_data import load_csv_into_spark_data_frame
-from src.processing.aggregate_counts import get_aggregate_counts
-from src.data_exports.write_csv import save_spark_dataframe_as_csv, rename_csv_output
-
+from src.utils import file_paths
+from src.utils import logging_config
+from src.utils import spark as spark_utils
+from src.data_ingestion import get_data
+from src.data_ingestion import reading_data
+from src.processing import aggregate_counts
+from src.data_exports import write_csv
 
 logger = logging.getLogger(__name__)
 
 def main():
     
     # load config, here we load our project's parameters from the config.toml file
-    config = get_config() 
+    config = file_paths.get_config() 
 
     # configure logging
-    configure_logging(config['log_dir'], config)
+    logging_config.configure_logging(config['log_dir'], config)
     logger.info(f"Configured logging with log folder: {config['log_dir']}.")
     logger.info(f"Logging the config settings:\n\n\t{config}\n")
     logger.info(f"Starting run at:\t{datetime.now().time()}")
@@ -64,7 +63,6 @@ def main():
     # Creating dictionary to hold outputs
     outputs = {}
 
-
     # Count number of episodes in England - place this in the outputs dictionary
     outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
     logger.info(f"created count of episodes in England")
@@ -75,7 +73,6 @@ def main():
         logger.info(f"saved output df {output_name} as csv")
         rename_csv_output(output_name)
         logger.info(f"renamed {output_name} file")
-
 
 if __name__ == "__main__":
     print(f"Running create_publication script")
