@@ -24,4 +24,3 @@ def rename_csv_output(output_name):
     print(files)
     os.rename(files[0], f'data_out/{output_name}/{output_name}.csv')
 
-
