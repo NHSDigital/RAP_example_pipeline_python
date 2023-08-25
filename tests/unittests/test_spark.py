@@ -14,3 +14,4 @@ def test_create_spark_session():
 
     assert spark.__class__.__name__ == 'SparkSession'
     assert spark.sparkContext.appName == test_app_name
+    
