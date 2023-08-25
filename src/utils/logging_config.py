@@ -3,8 +3,6 @@ Purpose of the script: configures logging
 """
 import sys
 import time
-from pathlib import Path
-from datetime import datetime 
 import logging
 
 logger = logging.getLogger(__name__)
@@ -34,6 +32,3 @@ def configure_logging(
         ]  
     )
     logger = logging.getLogger(__name__)
-
-    logger.info(f"Logging the config settings:\n\n\t{config}\n")
-    logger.info(f"Starting run at:\t{datetime.now().time()}")
