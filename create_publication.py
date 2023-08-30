@@ -53,6 +53,8 @@ def main():
         save_spark_dataframe_as_csv(output, output_name)
         rename_csv_output(output_name)
 
+    # stop the spark session
+    spark.stop()
 
 if __name__ == "__main__":
     print(f"Running create_publication script")

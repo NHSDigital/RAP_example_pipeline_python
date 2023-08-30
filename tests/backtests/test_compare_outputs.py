@@ -7,6 +7,7 @@ To use:
 
 """
 
+import create_publication
 import pandas as pd
 import pathlib
 from .backtesting_params import bt_params
@@ -17,6 +18,9 @@ def test_backtests():
 
         new_output_file = backtest['new_output']
         ground_truth_file = backtest['ground_truth']
+
+        if not pathlib.Path(ground_truth_file).is_file():
+            create_publication.main()
 
         df_output = pd.read_csv(bt_params['output_base_path'] / backtest['new_output'])
         df_ground_truth = pd.read_csv(bt_params['ground_truth_base_path'] / backtest['ground_truth'])
