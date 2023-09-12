@@ -138,10 +138,10 @@ To run the pipeline, enter the following command into the terminal:
 `python create_publication.py`
 
 ## Running the tests
-There are two sets of tests in this structure: 
+There are two sets of tests in this structure (and you can see guidance on them by following the hyperlinks): 
 
-* **Unit tests**: these test functions in isolation to ensure they do what you expect them to.
-* **Back tests**: when you refactor a pipeline or re-create it entirely, it's a good idea to compare the results of the old process (often referred to as the "ground truth") to the results of the new pipeline. This is what the back tests do. Here, the back tests will first check if the output files exist in the data_out folder, and if not, it will run the pipeline and create these files so that it can compare them to the ground truth files (stored in the `tests/backtests/ground_truth/` folder). Note that you don't need to commit your ground truth files to your repo (for example if they are very large or contain sensitive data).
+* **[Unit tests](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/unit-testing/)**: these test functions in isolation to ensure they do what you expect them to.
+* **[Back tests](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/backtesting/)**: when you refactor a pipeline or re-create it entirely, it's a good idea to compare the results of the old process (often referred to as the "ground truth") to the results of the new pipeline. This is what the back tests do. Here, the back tests will first check if the output files exist in the data_out folder, and if not, it will run the pipeline and create these files so that it can compare them to the ground truth files (stored in the `tests/backtests/ground_truth/` folder). Note that you don't need to commit your ground truth files to your repo (for example if they are very large or contain sensitive data).
 
 To run all tests, enter the following terminal command:
 
@@ -211,7 +211,7 @@ And if you just want to run the unit tests, use:
 |   |   |
 |   +---unittests                     <- Tests for the functional outputs of Python code
 |   |       __init__.py               <- Makes the folder an importable Python module
-|   |       test_aggregate)counts.py  <- Test functions that process/manipulate the data
+|   |       test_aggregate_counts.py  <- Test functions that process/manipulate the data
 |   |       test_spark                <- Test functions related to setting up and configuring spark
 ```
 
