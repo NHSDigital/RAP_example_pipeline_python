@@ -109,19 +109,6 @@ python -m pip install -r requirements.txt
 
 For Visual Studio Code it is necessary that you change your default interpreter to the virtual environment you just created .venv. To do this use the shortcut Ctrl-Shift-P, search for Python: Select interpreter and select .venv from the list.
 
-### Using conda
-
-The first line of the `environment.yml` file sets the new environment's name. In this template, the name is `rap_template`- you should change this in the `environment.yml` file, as well as the following code, to the name of your project.
-```
-conda env create -f environment.yml
-conda activate <environment_name>
-```
-3. _Optional_: In the terminal, change the directory into the cloned repos' directory, and run the example publication script:
-```
-cd rap-package-template
-python examples/example_create_publication.py
-```
-
 ## Using GitHub codespaces
 
 If you are using GitHub Codespaces, the above installation steps will be completed automatically, so you don't need to do anything! 
