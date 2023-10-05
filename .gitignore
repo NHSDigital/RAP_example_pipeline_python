@@ -5,7 +5,11 @@
 # Add any additional things to exclude.
 #####################################################################
 # Avoid committing any data. If you need to make an exception for one file you can do that separately
+
 *.csv
+# allow csv files in the backtests folder
+!tests/backtests/ground_truth/*.csv
+
 *.ipynb
 *.ipynb_checkpoints
 *.xlsx

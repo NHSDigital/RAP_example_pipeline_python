@@ -1,4 +1,4 @@
-# RAP Example Pipeline - Python
+# RAP Example Pipeline - Python using PySpark
 
 :exclamation: Warning: this repository may contain references internal to NHS England that cannot be accessed publicly
 
@@ -117,14 +117,32 @@ Click the "Code" button above, click the "Codespaces" tab, and then click the "+
 
 ## Running the pipeline
 Before running the pipeline, make sure you are in the same folder as the `create-publication.py` file by entering the following command into the terminal:
+
 `cd RAP_example_pipeline_python`
 
 To run the pipeline, enter the following command into the terminal:
+
 `python create_publication.py`
 
-## Project structure
+## Running the tests
+There are two sets of tests in this structure (and you can see guidance on them by following the hyperlinks): 
 
-> Provide the user with an outline of your repository structure. This template is primarily designed for publications teams at NHS England. Projects with different requirements (e.g. more complex documentation and modelling) should look to [DrivenData's cookiecutter project structure](https://drivendata.github.io/cookiecutter-data-science/#directory-structure), as well as our [Community of Practice](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/project-structure-and-packaging/) for guidance.
+* **[Unit tests](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/unit-testing/)**: these test functions in isolation to ensure they do what you expect them to.
+* **[Back tests](https://nhsdigital.github.io/rap-community-of-practice/training_resources/python/backtesting/)**: when you refactor a pipeline or re-create it entirely, it's a good idea to compare the results of the old process (often referred to as the "ground truth") to the results of the new pipeline. This is what the back tests do. Here, the back tests will first check if the output files exist in the data_out folder, and if not, it will run the pipeline and create these files so that it can compare them to the ground truth files (stored in the `tests/backtests/ground_truth/` folder). Note that you don't need to commit your ground truth files to your repo (for example if they are very large or contain sensitive data).
+
+To run all tests, enter the following terminal command:
+
+`python -m pytest tests/`
+
+If you just want to run the back tests, you can use:
+
+`python -m pytest tests/backtests`
+
+And if you just want to run the unit tests, use:
+
+`python -m pytest tests/unittests`
+
+## Project structure
 
 ```text
 |   .gitignore                        <- Files (& file types) automatically removed from version control for security purposes
@@ -133,55 +151,55 @@ To run the pipeline, enter the following command into the terminal:
 |   requirements.txt                  <- Requirements for reproducing the analysis environment 
 |   pyproject.toml                    <- Configuration file containing package build information
 |   LICENCE                           <- License info for public distribution
-|   README.md                         <- Quick start guide / explanation of your project
+|   README.md                         <- Quick start guide / explanation of the project
 |
 |   create_publication.py             <- Runs the overall pipeline to produce the publication     
 |
-+---data_in                           <- Stores imported data that will be used to create the outputs
-|   |       .gitkeep                  <- Empty file that enables the data_in folder to be committed
-+---data_out                          <- Outputs and aggregations created by the pipeline are stored here
-|   |       .gitkeep                  <- Empty file that enables the data_in folder to be committed
-+---src                               <- Scripts with functions for use in 'create_publication.py'. Contains project's codebase.
-|   |       __init__.py               <- Makes the functions folder an importable Python module
++---data_in                           <- Data downloaded from external sources can be saved here. Files in here will not be committed
+|   |       .gitkeep                  <- This is a placeholder file that enables the otherwise empty directory to be committed
 |   |
-|   +---utils                         <- Scripts relating to configuration and handling data connections e.g. importing data, writing to a database etc.
++---data_out                          <- Any data saved as files will be stored here. Files in here will not be committed
+|   |       .gitkeep                  <- This is a placeholder file that enables the otherwise empty directory to be committed
+|   |
++---src                               <- Scripts with functions for use in 'create_publication.py'. Contains the project's codebase.
 |   |       __init__.py               <- Makes the functions folder an importable Python module
-|   |       file_paths.py             <- Configures file paths for the package
-|   |       logging_config.py         <- Configures logging
-|   |       spark.py                  <- For setting up and configuring Apache Spark
-|   | 
-|   +---processing                    <- Scripts with modules containing functions to process data i.e. clean and derive new fields
-|   |       __init__.py               <- Makes the functions folder an importable Python module
-|   |       clean.py                  <- Perform cleaning and wrangling processes 
-|   |       aggregate_counts.py       <- Creates aggregations and counts based on the imported data
-|   | 
-|   +---data_ingestion                <- Scripts with modules containing functions to preprocess read data i.e. perform validation/data quality checks, other preprocessing etc.
-|   |       __init__.py               <- Makes the functions folder an importable Python module
-|   |       get_data.py               <- Imports data and saves it to the data_in folder
-|   |       preprocessing.py          <- Perform preprocessing, for example preparing your data for metadata or data quality checks.
-|   |       validation_checks.py      <- Perform validation checks e.g. a field has acceptable values.
-|   |       reading_data.py           <- Reads the imported and validated data into a spark dataframe ready for processing
 |   |
 |   +---data_exports
-|   |       __init__.py               <- Makes the functions folder an importable Python module
-|   |       write_excel.py            <- Populates an excel .xlsx template with values from your CSV output.
-|   |       write_csv.py              <- Save outputs in CSV format to the data_out folder
+|   |       __init__.py               <- Makes the folder an importable Python module
+|   |       write_excel.py            <- Populates an excel .xlsx template with values from your CSV output if needed
+|   |       write_csv.py              <- Creates CSV outputs from the data manipulated in python
 |   |
-+---templates                         <- Templates for output files
-|       publication_template.xlsx
-|
+|   +---data_ingestion                <- Scripts with modules containing functions to import and preprocess read data i.e. perform validation/data quality checks, other preprocessing etc.
+|   |       __init__.py               <- Makes the folder an importable Python module
+|   |       get_data.py               <- Gets data from external sources
+|   |       preprocessing.py          <- Perform preprocessing, for example preparing your data for metadata or data quality checks
+|   |       reading_data.py           <- Read data from CSVs and other sources into formats that can be manipulated in python
+|   |       validation_checks.py      <- Perform validation checks e.g. a field has acceptable values
+|   |
+|   +---processing                    <- Scripts with modules containing functions to process data i.e. clean and derive new fields
+|   |       __init__.py               <- Makes the folder an importable Python module
+|   |       aggregate_counts.py       <- Functions that create the aggregate counts needed in the outputs
+|   | 
+|   +---utils                         <- Scripts relating to configuration and handling data connections e.g. importing data, writing to a database etc.
+|   |       __init__.py               <- Makes the folder an importable Python module
+|   |       file_paths.py             <- Configures file paths for the package
+|   |       logging_config.py         <- Configures logging
+|   |       spark.py                  <- Functions that set up and configure Spark
+|   | 
 +---tests
 |   |       __init__.py               <- Makes the functions folder an importable Python module
 |   |
 |   +---backtests                     <- Comparison tests for the old and new pipeline's outputs
-|   |       backtesting_params.py
-|   |       test_compare_outputs.py
-|   |       __init__.py               <- Makes the functions folder an importable Python module
-|   |
+|   |   |   __init__.py               <- Makes the folder an importable Python module
+|   |   |   backtesting_params.py     <- parameters for back tests, such as the location of ground truth files
+|   |   |   test_compare_outputs.py   <- runs the back tests
+|   |   |
+|   |   +---ground_truth              <- ground truth outputs from the old process to compare against the new one
+|   |   |
 |   +---unittests                     <- Tests for the functional outputs of Python code
-|   |       test_data_connections.py
-|   |       test_processing.py
-|   |       __init__.py               <- Makes the functions folder an importable Python module
+|   |       __init__.py               <- Makes the folder an importable Python module
+|   |       test_aggregate_counts.py  <- Test functions that process/manipulate the data
+|   |       test_spark                <- Test functions related to setting up and configuring spark
 ```
 
 ### `root`
@@ -194,10 +212,9 @@ This file currently runs a set of example steps using example data.
 
 This directory contains the meaty parts of the code. By organising the code into logical sections, we make it easier to understand, maintain and test. Moreover, tucking the complex code out of the way means that users don't need to understand everything about the code all at once.
 
-* `data_ingestion/get_data.py` handles reading data in
-* `processing` folder contains the core business logic.
-* `utils` folder contains useful reusable functions (e.g. to set up logging, and importing configuration settings from `config.toml`)
-* `write_csv.py` contains functions relating to the final part of the pipeline, where the aggregated figures are saved as CSV files in the data_out folder
+### `tests`
+
+This folder contains the tests for the code base. It's good practice to have unit tests for your functions at the very least, ideally in addition to tests of the pipeline as a whole such as back tests.
 
 -----------
 

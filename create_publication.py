@@ -73,6 +73,10 @@ def main():
         logger.info(f"saved output df {output_name} as csv")
         rename_csv_output(output_name)
         logger.info(f"renamed {output_name} file")
+    
+    # stop the spark session
+    spark.stop()
+        
 
 if __name__ == "__main__":
     print(f"Running create_publication script")
