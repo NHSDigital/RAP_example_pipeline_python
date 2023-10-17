@@ -2,7 +2,7 @@
 from pyspark.sql import functions as F
 from pyspark import sql as pyspark
 
-def get_aggregate_counts(
+def get_distinct_count(
     df_unaggregated : pyspark.DataFrame,
     counting_col : str, 
     alias_name : str = "distinct_count"
@@ -34,7 +34,7 @@ def get_aggregate_counts(
     return df_aggregated
 
 
-def get_grouped_aggregate_counts(
+def get_grouped_distinct_counts(
     df_unaggregated : pyspark.DataFrame,
     grouping_col : str,
     counting_col : str, 

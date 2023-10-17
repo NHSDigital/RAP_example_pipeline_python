@@ -64,7 +64,7 @@ def main():
     outputs = {}
 
     # Count number of episodes in England - place this in the outputs dictionary
-    outputs["df_hes_england_count"] = aggregate_counts.get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
+    outputs["df_hes_england_count"] = aggregate_counts.get_distinct_count(df_hes_data, 'epikey', 'number_of_episodes')
 
     # Rename and save spark dataframes as CSVs:
     for output_name, output in outputs.items():
