@@ -44,7 +44,7 @@ def main():
     config = file_paths.get_config() 
 
     # configure logging
-    logging_config.configure_logging(config['log_dir'], config)
+    logging_config.configure_logging(config['log_dir'])
     logger.info(f"Configured logging with log folder: {config['log_dir']}.")
     logger.info(f"Logging the config settings:\n\n\t{config}\n")
     logger.info(f"Starting run at:\t{datetime.now().time()}")
