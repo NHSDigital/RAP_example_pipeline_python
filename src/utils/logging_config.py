@@ -4,12 +4,12 @@ Purpose of the script: configures logging
 import sys
 import time
 import logging
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
 def configure_logging(
-    log_folder : str, 
-    config : dict
+    log_folder : str
 ) -> None:
     """Set up logging format and location to store logs
 
@@ -19,8 +19,6 @@ def configure_logging(
     ----------
         log_folder : str
             directory to store logs
-        config : dict
-            dictionary of configuration
     """
     logging.basicConfig(
         level=logging.INFO,
