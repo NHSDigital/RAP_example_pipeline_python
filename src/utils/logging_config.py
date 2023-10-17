@@ -4,6 +4,7 @@ Purpose of the script: configures logging
 import sys
 import time
 import logging
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 

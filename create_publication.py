@@ -50,28 +50,27 @@ def main():
     logger.info(f"Starting run at:\t{datetime.now().time()}")
 
     # get artificial HES data as CSV
-    download_zip_from_url(config['data_url'], overwrite=True)
+    get_data.download_zip_from_url(config['data_url'], overwrite=True)
     logger.info(f"Downloaded artificial hes as zip.")
 
     # create spark session
-    spark = create_spark_session(config['project_name'])
+    spark = spark_utils.create_spark_session(config['project_name'])
     logger.info(f"created spark session with app name: {config['project_name']}")
 
     # Loading data from CSV as spark data frame
-    df_hes_data = load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
+    df_hes_data = reading_data.load_csv_into_spark_data_frame(spark, config['path_to_downloaded_data'])
 
     # Creating dictionary to hold outputs
     outputs = {}
 
     # Count number of episodes in England - place this in the outputs dictionary
-    outputs["df_hes_england_count"] = get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
-    logger.info(f"created count of episodes in England")
+    outputs["df_hes_england_count"] = aggregate_counts.get_aggregate_counts(df_hes_data, 'epikey', 'number_of_episodes')
 
     # Rename and save spark dataframes as CSVs:
     for output_name, output in outputs.items():
-        save_spark_dataframe_as_csv(output, output_name)
+        write_csv.save_spark_dataframe_as_csv(output, output_name)
         logger.info(f"saved output df {output_name} as csv")
-        rename_csv_output(output_name)
+        write_csv.rename_csv_output(output_name)
         logger.info(f"renamed {output_name} file")
     
     # stop the spark session
