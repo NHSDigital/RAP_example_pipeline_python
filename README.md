@@ -80,7 +80,7 @@ The pipeline follows three steps which are common to almost all analytical pipel
 This code requires:
 
 - Python (> 3.6), the official Python website has [instructions for downloading and installing python](https://wiki.python.org/moin/BeginnersGuide/Download).
-- 8 Java - you will also need to have [Java 8/11](https://www.java.com/en/download/) installed, and your [JAVA_HOME variable correctly set](https://www.baeldung.com/java-home-on-windows-mac-os-x-linux).
+- Java - you will also need to have [Java 8/11](https://www.java.com/en/download/) installed, and your [JAVA_HOME variable correctly set](https://www.baeldung.com/java-home-on-windows-mac-os-x-linux).
 
 ## Getting Started
 
