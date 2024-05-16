@@ -11,6 +11,7 @@
 !tests/backtests/ground_truth/*.csv
 
 *.ipynb
+!rap_example_pipeline_python.ipynb
 *.ipynb_checkpoints
 *.xlsx
 *.xls
